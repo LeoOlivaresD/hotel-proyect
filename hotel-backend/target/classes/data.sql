@@ -42,17 +42,18 @@ CREATE TABLE IF NOT EXISTS reserva (
 
 -- ── Datos de prueba: habitaciones ────────────────────────────────────────────
 INSERT INTO habitacion (numero, tipo, piso, capacidad, precio, estado, amenidades, m2)
-SELECT * FROM (
-    SELECT '101','Simple',1,1,65.00,'disponible','WiFi,TV,Aire acondicionado',20 UNION ALL
-    SELECT '102','Simple',1,1,65.00,'mantenimiento','WiFi,TV',20 UNION ALL
-    SELECT '201','Doble',2,2,95.00,'ocupada','WiFi,TV,Minibar,Balcón',30 UNION ALL
-    SELECT '204','Doble',2,2,95.00,'disponible','WiFi,TV,Minibar',30 UNION ALL
-    SELECT '301','Suite',3,3,180.00,'disponible','WiFi,TV,Jacuzzi,Vista al mar',55 UNION ALL
-    SELECT '302','Suite',3,3,180.00,'ocupada','WiFi,TV,Jacuzzi',55 UNION ALL
-    SELECT '401','Junior Suite',4,2,130.00,'disponible','WiFi,TV,Kitchenette',42 UNION ALL
-    SELECT '402','Junior Suite',4,2,130.00,'disponible','WiFi,TV,Kitchenette,Balcón',42
+SELECT v_numero, v_tipo, v_piso, v_capacidad, v_precio, v_estado, v_amenidades, v_m2
+FROM (
+    SELECT '101' AS v_numero, 'Simple'       AS v_tipo, 1 AS v_piso, 1 AS v_capacidad, 65.00  AS v_precio, 'disponible'    AS v_estado, 'WiFi,TV,Aire acondicionado'  AS v_amenidades, 20 AS v_m2 UNION ALL
+    SELECT '102', 'Simple',       1, 1,  65.00, 'mantenimiento', 'WiFi,TV',                          20 UNION ALL
+    SELECT '201', 'Doble',        2, 2,  95.00, 'ocupada',       'WiFi,TV,Minibar,Balcon',            30 UNION ALL
+    SELECT '204', 'Doble',        2, 2,  95.00, 'disponible',    'WiFi,TV,Minibar',                   30 UNION ALL
+    SELECT '301', 'Suite',        3, 3, 180.00, 'disponible',    'WiFi,TV,Jacuzzi,Vista al mar',      55 UNION ALL
+    SELECT '302', 'Suite',        3, 3, 180.00, 'ocupada',       'WiFi,TV,Jacuzzi',                   55 UNION ALL
+    SELECT '401', 'Junior Suite', 4, 2, 130.00, 'disponible',    'WiFi,TV,Kitchenette',               42 UNION ALL
+    SELECT '402', 'Junior Suite', 4, 2, 130.00, 'disponible',    'WiFi,TV,Kitchenette,Balcon',        42
 ) AS tmp
-WHERE NOT EXISTS (SELECT 1 FROM habitacion WHERE numero = tmp.numero);
+WHERE NOT EXISTS (SELECT 1 FROM habitacion WHERE numero = tmp.v_numero);
 
 -- ── Datos de prueba: clientes ────────────────────────────────────────────────
 INSERT INTO cliente (nombre, apellido, rut, correo, telefono)

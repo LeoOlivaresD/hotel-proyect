@@ -46,29 +46,29 @@ SELECT v_numero, v_tipo, v_piso, v_capacidad, v_precio, v_estado, v_amenidades, 
 FROM (
     SELECT '101' AS v_numero, 'Simple'       AS v_tipo, 1 AS v_piso, 1 AS v_capacidad, 65.00  AS v_precio, 'disponible'    AS v_estado, 'WiFi,TV,Aire acondicionado'  AS v_amenidades, 20 AS v_m2 UNION ALL
     SELECT '102', 'Simple',       1, 1,  65.00, 'mantenimiento', 'WiFi,TV',                          20 UNION ALL
-    SELECT '201', 'Doble',        2, 2,  95.00, 'ocupada',       'WiFi,TV,Minibar,Balcon',            30 UNION ALL
-    SELECT '204', 'Doble',        2, 2,  95.00, 'disponible',    'WiFi,TV,Minibar',                   30 UNION ALL
+    SELECT '201', 'Doble',        2, 2,  95.00, 'ocupada',       'WiFi,TV,Minibar,Balcon',           30 UNION ALL
+    SELECT '204', 'Doble',        2, 2,  95.00, 'disponible',    'WiFi,TV,Minibar',                  30 UNION ALL
     SELECT '301', 'Suite',        3, 3, 180.00, 'disponible',    'WiFi,TV,Jacuzzi,Vista al mar',      55 UNION ALL
-    SELECT '302', 'Suite',        3, 3, 180.00, 'ocupada',       'WiFi,TV,Jacuzzi',                   55 UNION ALL
-    SELECT '401', 'Junior Suite', 4, 2, 130.00, 'disponible',    'WiFi,TV,Kitchenette',               42 UNION ALL
+    SELECT '302', 'Suite',        3, 3, 180.00, 'ocupada',       'WiFi,TV,Jacuzzi',                  55 UNION ALL
+    SELECT '401', 'Junior Suite', 4, 2, 130.00, 'disponible',    'WiFi,TV,Kitchenette',              42 UNION ALL
     SELECT '402', 'Junior Suite', 4, 2, 130.00, 'disponible',    'WiFi,TV,Kitchenette,Balcon',        42
 ) AS tmp
 WHERE NOT EXISTS (SELECT 1 FROM habitacion WHERE numero = tmp.v_numero);
 
 -- ── Datos de prueba: clientes ────────────────────────────────────────────────
 INSERT INTO cliente (nombre, apellido, rut, correo, telefono)
-SELECT * FROM (
-    SELECT 'María','González','12.345.678-9','maria.gonzalez@email.com','+56912345678' UNION ALL
-    SELECT 'Pedro','Ramírez','13.456.789-0','pedro.ramirez@email.com','+56923456789' UNION ALL
-    SELECT 'Claudia','Soto','14.567.890-1','claudia.soto@email.com','+56934567890'
+SELECT v_nombre, v_apellido, v_rut, v_correo, v_telefono FROM (
+    SELECT 'María' AS v_nombre, 'González' AS v_apellido, '12.345.678-9' AS v_rut, 'maria.gonzalez@email.com' AS v_correo, '+56912345678' AS v_telefono UNION ALL
+    SELECT 'Pedro', 'Ramírez', '13.456.789-0', 'pedro.ramirez@email.com', '+56923456789' UNION ALL
+    SELECT 'Claudia', 'Soto', '14.567.890-1', 'claudia.soto@email.com', '+56934567890'
 ) AS tmp
-WHERE NOT EXISTS (SELECT 1 FROM cliente WHERE rut = tmp.rut);
+WHERE NOT EXISTS (SELECT 1 FROM cliente WHERE rut = tmp.v_rut);
 
 -- ── Datos de prueba: reservas ────────────────────────────────────────────────
 INSERT INTO reserva (cliente_id, habitacion_id, fecha_entrada, fecha_salida, huespedes, metodo_pago, estado_pago, estado, total)
-SELECT * FROM (
-    SELECT 1,4,'2025-04-15','2025-04-18',2,'credito','pagado','confirmada',643.00 UNION ALL
-    SELECT 2,5,'2025-04-16','2025-04-20',3,'transferencia','pendiente','pendiente',1020.00 UNION ALL
-    SELECT 3,1,'2025-04-14','2025-04-17',1,'efectivo','pagado','confirmada',260.00
+SELECT v_cliente_id, v_habitacion_id, v_fecha_entrada, v_fecha_salida, v_huespedes, v_metodo_pago, v_estado_pago, v_estado, v_total FROM (
+    SELECT 1 AS v_cliente_id, 4 AS v_habitacion_id, '2025-04-15' AS v_fecha_entrada, '2025-04-18' AS v_fecha_salida, 2 AS v_huespedes, 'credito' AS v_metodo_pago, 'pagado' AS v_estado_pago, 'confirmada' AS v_estado, 643.00 AS v_total UNION ALL
+    SELECT 2, 5, '2025-04-16', '2025-04-20', 3, 'transferencia', 'pendiente', 'pendiente', 1020.00 UNION ALL
+    SELECT 3, 1, '2025-04-14', '2025-04-17', 1, 'efectivo', 'pagado', 'confirmada', 260.00
 ) AS tmp
 WHERE NOT EXISTS (SELECT 1 FROM reserva LIMIT 1);
