@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-HotelBackendApplication<hotel-backend>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "cl.duoc.hotel.HotelBackendApplication",
+            "projectName": "hotel-backend",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
